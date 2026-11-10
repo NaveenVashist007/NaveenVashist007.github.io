@@ -1,0 +1,29 @@
+---
+import type { Listing } from "../lib/listings";
+import { modeLabel } from "../lib/listings";
+import { whatsappUrl } from "../config/site";
+const { l } = Astro.props as { l: Listing };
+const wa = whatsappUrl(`Hello NextGen Infra, I am interested in "${l.title}" (${modeLabel[l.mode]}, ${l.city}).`);
+const specs = [l.bhk, l.area, l.furnishing].filter(Boolean);
+---
+<article data-mode={l.mode} data-type={l.type} class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition duration-500 hover:-translate-y-1 hover:shadow-xl">
+  <div class="relative aspect-[4/3] bg-navy-900">
+    {l.cover
+      ? <button type="button" data-lightbox="listings" data-src={l.cover} data-caption={l.title} class="block h-full w-full">
+          <img src={l.cover} alt={l.title} loading="lazy" decoding="async" width="800" height="600" class="h-full w-full object-cover" />
+        </button>
+      : <div class="grid h-full place-items-center text-sm text-white/40">Photo coming soon</div>}
+    <span class:list={["absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold", l.mode === "rent" ? "bg-sky-600 text-white" : "bg-gold-500 text-navy-950"]}>{modeLabel[l.mode]}</span>
+  </div>
+  <div class="p-6">
+    <p class="text-xs uppercase tracking-widest text-gold-500">{l.type} · {l.city}</p>
+    <h3 class="mt-2 text-xl text-navy-900">{l.title}</h3>
+    {specs.length > 0 && <p class="mt-2 text-sm text-ink/70">{specs.join(" · ")}</p>}
+    {l.description && <p class="mt-3 text-sm leading-relaxed text-ink/70">{l.description}</p>}
+    <p class="mt-4 font-serif text-2xl text-navy-900">{l.price}{l.priceNote && <span class="ml-1 font-sans text-xs text-ink/60">{l.priceNote}</span>}</p>
+    <div class="mt-5 flex gap-3">
+      <a href={`/contact?ref=${encodeURIComponent(l.title)}`} class="btn btn-gold flex-1 !py-2.5">Enquire</a>
+      <a href={wa} target="_blank" rel="noopener" class="btn border border-navy-900/20 !py-2.5 text-navy-900 hover:border-gold-500">WhatsApp</a>
+    </div>
+  </div>
+</article>

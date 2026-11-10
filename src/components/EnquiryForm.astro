@@ -1,0 +1,103 @@
+---
+// Reusable enquiry form. Usage: <EnquiryForm project="nextgen-farms" heading="Enquire about this project" />
+// Sends to Web3Forms (free). Put the access key in src/config/site.ts (formAccessKey).
+import { site } from "../config/site";
+import { projects } from "../lib/projects";
+const { project = "", heading } = Astro.props as { project?: string; heading?: string };
+---
+<form data-enquiry data-key={site.formAccessKey} data-phone={site.phoneRaw} novalidate
+      class="space-y-5 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8">
+  {heading && <h3 class="text-2xl text-navy-900">{heading}</h3>}
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class="label" for="name">Full name *</label>
+      <input class="field" id="name" name="name" type="text" autocomplete="name" required />
+    </div>
+    <div>
+      <label class="label" for="phone">Mobile number *</label>
+      <input class="field" id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10-digit number" required />
+    </div>
+    <div>
+      <label class="label" for="email">Email (optional)</label>
+      <input class="field" id="email" name="email" type="email" autocomplete="email" />
+    </div>
+    <div>
+      <label class="label" for="project">Interested in</label>
+      <select class="field" id="project" name="project">
+        <option value="General enquiry">General enquiry</option>
+        {projects.map((p) => <option value={p.title} data-slug={p.slug} selected={p.slug === project}>{p.title}</option>)}
+      </select>
+    </div>
+  </div>
+  <div>
+    <label class="label" for="message">Message</label>
+    <textarea class="field" id="message" name="message" rows="4" placeholder="Tell us what you are looking for, e.g. plot size or a site visit."></textarea>
+  </div>
+  <!-- spam trap: real users never see or tick this -->
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" style="display:none" />
+  <label class="flex items-start gap-3 text-sm text-ink/70">
+    <input type="checkbox" name="consent" class="mt-1 h-4 w-4 accent-[#c9a45c]" required />
+    <span>I agree to be contacted by NextGen Infra about my enquiry. See our <a href="/privacy" class="underline hover:text-gold-500">Privacy Policy</a>.</span>
+  </label>
+  <div class="flex flex-wrap items-center gap-3">
+    <button type="submit" class="btn btn-gold">Send Enquiry</button>
+    <a data-wa href="#" target="_blank" rel="noopener" class="btn border border-navy-900/20 text-navy-900 hover:border-gold-500">Chat on WhatsApp</a>
+  </div>
+  <p data-status role="status" aria-live="polite" class="text-sm"></p>
+</form>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>("form[data-enquiry]");
+  const q = new URLSearchParams(location.search).get("project");
+  const ref = new URLSearchParams(location.search).get("ref");
+  forms.forEach((form) => {
+    const f = form.elements as any;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const say = (msg: string, ok = false) => { status.textContent = msg; status.className = "text-sm " + (ok ? "text-emerald-700" : "text-red-600"); };
+
+    // Prefill project from ?project=slug
+    if (q) { const opt = [...f.project.options].find((o: HTMLOptionElement) => o.dataset.slug === q); if (opt) f.project.value = opt.value; }
+
+    if (ref && !f.message.value) f.message.value = `I am interested in: ${ref}`;
+
+    // WhatsApp button builds a message from the fields
+    const wa = form.querySelector<HTMLAnchorElement>("[data-wa]")!;
+    wa.addEventListener("click", () => {
+      const parts = [`Hello NextGen Infra, I am interested in ${f.project.value}.`];
+      if (f.name.value.trim()) parts.push(`Name: ${f.name.value.trim()}`);
+      if (f.message.value.trim()) parts.push(f.message.value.trim());
+      wa.href = `https://wa.me/${form.dataset.phone}?text=${encodeURIComponent(parts.join("\n"))}`;
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = f.name.value.trim();
+      const phone = f.phone.value.replace(/[\s-]/g, "");
+      const email = f.email.value.trim();
+      if (name.length < 2) return say("Please enter your name.");
+      if (!/^(\+?91|0)?[6-9]\d{9}$/.test(phone)) return say("Please enter a valid 10-digit mobile number.");
+      if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return say("Please enter a valid email address.");
+      if (!f.consent.checked) return say("Please tick the consent box so we can contact you.");
+      if (f.botcheck.checked) return say("Thank you! We will contact you soon.", true); // bots: pretend success
+      const key = form.dataset.key || "";
+      if (!key || key.startsWith("YOUR_")) return say("The form is not connected yet. Please use the WhatsApp button or call us.");
+
+      const btn = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+      btn.disabled = true; btn.textContent = "Sending...";
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: key, subject: `New enquiry: ${f.project.value}`, from_name: "NextGen Infra Website",
+            name, phone, email, project: f.project.value, message: f.message.value.trim(), replyto: email || undefined,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) { form.reset(); say("Thank you! We have received your enquiry and will contact you soon.", true); }
+        else say("Sorry, something went wrong. Please try WhatsApp or call us.");
+      } catch { say("Network error. Please try WhatsApp or call us."); }
+      btn.disabled = false; btn.textContent = "Send Enquiry";
+    });
+  });
+</script>

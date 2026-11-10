@@ -1,0 +1,16 @@
+{
+  "slug": "my-new-project", "title": "My New Project", "status": "ongoing", "type": "Flats", "city": "City, Haryana",
+  "address": "Full address for the map", "googleMapsLink": "", "googleMapsEmbedUrl": "",
+  "shortDescription": "One or two lines for the project card.",
+  "description": ["Paragraph 1", "Paragraph 2"],
+  "priceRange": "Price on request", "possessionDate": "", "reraNumber": "",
+  "totalArea": "", "totalUnits": "",
+  "amenities": ["Amenity 1", "Amenity 2"],
+  "plotSizes": [],
+  "cover": "/images/my-project-cover.jpg",
+  "gallery": ["/images/my-project-1.jpg"],
+  "videoUrl": "",
+  "floorPlans": [],
+  "documents": [],
+  "featured": true, "order": 2
+}

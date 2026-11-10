@@ -1,0 +1,28 @@
+---
+import { site } from "../config/site";
+const path = Astro.url.pathname;
+---
+<header id="site-header" class="group fixed inset-x-0 top-0 z-50 transition duration-500 data-[scrolled]:bg-navy-950/90 data-[scrolled]:backdrop-blur data-[scrolled]:shadow-lg">
+  <div class="container-x flex h-20 items-center justify-between">
+    <a href="/" class="font-serif text-xl text-white tracking-wide">
+      NextGen <span class="text-gold-500">Infra</span>
+    </a>
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Main">
+      {site.nav.map((l) => (
+        <a href={l.href}
+           class:list={["text-sm tracking-wide transition hover:text-gold-400", path === l.href ? "text-gold-400" : "text-white/85"]}>
+          {l.label}
+        </a>
+      ))}
+      <a href="/contact" class="btn btn-gold !py-2">Enquire</a>
+    </nav>
+    <button id="menu-btn" class="md:hidden text-white" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h20M4 14h20M4 20h20"/></svg>
+    </button>
+  </div>
+  <nav id="mobile-menu" class="hidden bg-navy-950/95 backdrop-blur md:hidden" aria-label="Mobile">
+    <div class="container-x flex flex-col gap-4 py-6">
+      {site.nav.map((l) => <a href={l.href} class="text-white/90 text-lg">{l.label}</a>)}
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,12 @@
+---
+// Dark banner used at the top of inner pages (keeps the transparent header readable)
+const { eyebrow, title, text } = Astro.props as { eyebrow: string; title: string; text?: string };
+---
+<section class="relative overflow-hidden bg-navy-950 pb-20 pt-40">
+  <div class="absolute inset-0 bg-gradient-to-br from-navy-800/60 via-navy-950 to-black"></div>
+  <div class="container-x relative">
+    <p class="eyebrow" data-reveal>{eyebrow}</p>
+    <h1 class="mt-4 max-w-3xl text-4xl text-white sm:text-6xl" data-reveal data-delay="0.1">{title}</h1>
+    {text && <p class="mt-5 max-w-2xl text-white/70" data-reveal data-delay="0.2">{text}</p>}
+  </div>
+</section>

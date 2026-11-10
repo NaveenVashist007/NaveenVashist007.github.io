@@ -1,0 +1,31 @@
+---
+import { site } from "../config/site";
+---
+<footer class="bg-navy-950 text-white/70">
+  <div class="container-x grid gap-10 py-16 md:grid-cols-3">
+    <div>
+      <p class="font-serif text-2xl text-white">NextGen <span class="text-gold-500">Infra</span></p>
+      <p class="mt-4 text-sm leading-relaxed">{site.description}</p>
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Explore</p>
+      <ul class="space-y-2 text-sm">
+        {site.nav.map((l) => <li><a class="hover:text-gold-400" href={l.href}>{l.label}</a></li>)}
+        <li><a class="hover:text-gold-400" href="/privacy">Privacy Policy</a></li>
+        <li><a class="hover:text-gold-400" href="/disclaimer">Disclaimer</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Contact</p>
+      <ul class="space-y-2 text-sm">
+        <li>{site.address}</li>
+        <li><a class="hover:text-gold-400" href={`tel:+${site.phoneRaw}`}>{site.phone}</a></li>
+        <li><a class="hover:text-gold-400" href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>{site.hours}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-5 text-center text-xs">
+    © {new Date().getFullYear()} {site.name}. All rights reserved.
+  </div>
+</footer>

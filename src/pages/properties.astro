@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ListingCard from "../components/ListingCard.astro";
+import Lightbox from "../components/Lightbox.astro";
+import { listings } from "../lib/listings";
+const types = [...new Set(listings.map((l) => l.type))].sort();
+const sel = "rounded-full border border-navy-900/20 bg-white px-5 py-2 text-sm outline-none focus:border-gold-500";
+---
+<BaseLayout title="Properties for Rent & Sale" description="Flats, rooms and properties for rent and sale by NextGen Infra.">
+  <PageHero eyebrow="Properties" title="Rent, buy & sell" text="Flats, rooms and other properties available for rent and sale." />
+  <section class="section">
+    <div class="container-x">
+      {listings.length === 0 ? (
+        <div class="mx-auto max-w-2xl text-center" data-reveal>
+          <p class="text-ink/75">New rent and resale listings will appear here soon. Looking for something specific? Tell us what you need and we will help you directly.</p>
+          <a href="/contact" class="btn btn-gold mt-8">Send an Enquiry</a>
+        </div>
+      ) : (
+        <>
+          <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div id="mode-filter" class="flex flex-wrap gap-3">
+              {[["all", "All"], ["rent", "For Rent"], ["sale", "For Sale"]].map(([v, label], i) => (
+                <button data-mode-btn={v} data-active={i === 0 ? "" : undefined}
+                  class="rounded-full border border-navy-900/20 px-6 py-2 text-sm font-semibold transition data-[active]:border-gold-500 data-[active]:bg-gold-500 data-[active]:text-navy-950">{label}</button>
+              ))}
+            </div>
+            <select id="l-type" class={sel} aria-label="Filter by property type">
+              <option value="all">All types</option>
+              {types.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+          <div id="l-grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {listings.map((l) => <ListingCard l={l} />)}
+          </div>
+          <p id="l-empty" class="hidden py-16 text-center text-ink/60">No properties match these filters.</p>
+        </>
+      )}
+    </div>
+  </section>
+  <Lightbox />
+</BaseLayout>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>("[data-mode-btn]");
+  const type = document.getElementById("l-type") as HTMLSelectElement | null;
+  const cards = document.querySelectorAll<HTMLElement>("#l-grid [data-mode]");
+  const empty = document.getElementById("l-empty");
+  let mode = "all";
+  const apply = () => {
+    let shown = 0;
+    cards.forEach((c) => {
+      const ok = (mode === "all" || c.dataset.mode === mode) && (!type || type.value === "all" || c.dataset.type === type.value);
+      c.classList.toggle("hidden", !ok); if (ok) shown++;
+    });
+    empty?.classList.toggle("hidden", shown > 0);
+  };
+  btns.forEach((b) => b.addEventListener("click", () => { mode = b.dataset.modeBtn!; btns.forEach((x) => x.toggleAttribute("data-active", x === b)); apply(); }));
+  type?.addEventListener("change", apply);
+</script>

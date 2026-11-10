@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Design tokens: change colours/fonts here and the whole site follows */
+@theme {
+  --color-navy-950: #070d18;
+  --color-navy-900: #0f1b2e;
+  --color-navy-800: #17283f;
+  --color-gold-500: #c9a45c;
+  --color-gold-400: #d9b97a;
+  --color-ivory: #f7f4ee;
+  --color-ink: #1b2433;
+  --font-serif: "Playfair Display Variable", Georgia, serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: auto; background: var(--color-ivory); }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    animation: pagefade .6s ease both; /* page-transition fade */
+  }
+  h1, h2, h3 { font-family: var(--font-serif); letter-spacing: -0.01em; }
+  ::selection { background: var(--color-gold-500); color: var(--color-navy-950); }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+  .section { @apply py-20 sm:py-28; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.3em] text-gold-500; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold tracking-wide transition duration-300; }
+  .btn-gold { @apply bg-gold-500 text-navy-950 hover:bg-gold-400; }
+  .btn-outline { @apply border border-white/40 text-white hover:border-gold-400 hover:text-gold-400; }
+}
+
+@keyframes pagefade { from { opacity: 0 } to { opacity: 1 } }
+
+/* Lenis recommended styles */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Ken Burns slow zoom for hero image */
+@keyframes kenburns { from { transform: scale(1) } to { transform: scale(1.12) } }
+.kenburns { animation: kenburns 18s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .kenburns { animation: none; } }
+
+/* Form fields */
+@layer components {
+  .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-widest text-navy-900/70; }
+  .field { @apply w-full rounded-xl border border-navy-900/15 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30; }
+}

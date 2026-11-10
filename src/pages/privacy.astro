@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { site } from "../config/site";
+---
+<BaseLayout title="Privacy Policy" description="How NextGen Infra collects and uses your information.">
+  <PageHero eyebrow="Legal" title="Privacy Policy" />
+  <section class="section">
+    <div class="container-x max-w-3xl space-y-5 leading-relaxed text-ink/80">
+      <p>This website is operated by {site.name}. This policy explains what information we collect when you use it and how we use it.</p>
+      <h2 class="pt-4 text-2xl text-navy-900">Information we collect</h2>
+      <p>When you submit an enquiry we collect the details you provide: your name, mobile number, email address (optional), the project you are interested in and your message. If you contact us on WhatsApp or by phone, we receive the details you share there.</p>
+      <h2 class="pt-4 text-2xl text-navy-900">How we use it</h2>
+      <p>We use your details only to respond to your enquiry, share project information and arrange site visits. We do not sell your personal information.</p>
+      <h2 class="pt-4 text-2xl text-navy-900">Service providers</h2>
+      <p>Enquiry forms are processed by a third-party form service, and maps are provided by Google Maps. These services may process limited technical data (such as your IP address) under their own privacy policies.</p>
+      <h2 class="pt-4 text-2xl text-navy-900">Your choices</h2>
+      <p>You can ask us to update or delete your enquiry details at any time by writing to <a class="underline" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <p class="text-sm text-ink/50">Last updated: {new Date().getFullYear()}. This is a general template; the business should have it reviewed by a legal professional.</p>
+    </div>
+  </section>
+</BaseLayout>

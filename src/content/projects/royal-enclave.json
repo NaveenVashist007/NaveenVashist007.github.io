@@ -1,0 +1,16 @@
+{
+  "slug": "royal-enclave", "title": "Royal Enclave", "status": "upcoming", "type": "Villas", "city": "Bhiwani, Haryana",
+  "address": "Bhiwani, Haryana",
+  "googleMapsLink": "", "googleMapsEmbedUrl": "",
+  "shortDescription": "Gated villa community with modern design, green spaces and premium amenities.",
+  "description": [
+    "Royal Enclave is an upcoming gated villa community planned around green open spaces and a central clubhouse.",
+    "Register your interest to receive launch details and pricing first."
+  ],
+  "priceRange": "Launching soon", "possessionDate": "To be announced", "reraNumber": "",
+  "amenities": ["Gated Community", "Clubhouse", "Green Spaces", "Power Backup", "Jogging Track"],
+  "cover": "/images/project-3.svg",
+  "gallery": ["/images/project-3.svg", "/images/hero.svg", "/images/story.svg"],
+  "videoUrl": "", "floorPlans": [], "documents": [],
+  "featured": true, "order": 3
+}

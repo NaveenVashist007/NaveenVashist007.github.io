@@ -1,0 +1,37 @@
+---
+// Add <Lightbox /> once on a page. Then mark thumbnails:
+// <button data-lightbox="group-name" data-src="/images/big.jpg" data-caption="Text">...</button>
+---
+<div id="lightbox" class="fixed inset-0 z-[70] hidden items-center justify-center bg-black/92 p-4" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button id="lb-close" class="absolute right-5 top-5 text-4xl leading-none text-white/80 hover:text-gold-400" aria-label="Close">×</button>
+  <button id="lb-prev" class="absolute left-3 top-1/2 -translate-y-1/2 px-3 py-2 text-4xl text-white/80 hover:text-gold-400" aria-label="Previous">‹</button>
+  <figure class="max-h-full max-w-5xl">
+    <img id="lb-img" src="" alt="" class="max-h-[80vh] w-auto rounded-lg object-contain" />
+    <figcaption id="lb-cap" class="mt-3 text-center text-sm text-white/70"></figcaption>
+  </figure>
+  <button id="lb-next" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-2 text-4xl text-white/80 hover:text-gold-400" aria-label="Next">›</button>
+</div>
+<script>
+  const box = document.getElementById("lightbox")!;
+  const img = document.getElementById("lb-img") as HTMLImageElement;
+  const cap = document.getElementById("lb-cap")!;
+  let items: HTMLElement[] = [];
+  let i = 0;
+  const show = () => { const el = items[i]; img.src = el.dataset.src || ""; img.alt = el.dataset.caption || ""; cap.textContent = el.dataset.caption || ""; };
+  const open = (el: HTMLElement) => {
+    items = [...document.querySelectorAll<HTMLElement>(`[data-lightbox="${el.dataset.lightbox}"]`)].filter((x) => x.offsetParent !== null);
+    i = items.indexOf(el); show();
+    box.classList.remove("hidden"); box.classList.add("flex"); document.body.style.overflow = "hidden";
+  };
+  const close = () => { box.classList.add("hidden"); box.classList.remove("flex"); document.body.style.overflow = ""; };
+  const move = (d: number) => { i = (i + d + items.length) % items.length; show(); };
+  document.querySelectorAll<HTMLElement>("[data-lightbox]").forEach((el) => el.addEventListener("click", () => open(el)));
+  document.getElementById("lb-close")!.onclick = close;
+  document.getElementById("lb-prev")!.onclick = () => move(-1);
+  document.getElementById("lb-next")!.onclick = () => move(1);
+  box.addEventListener("click", (e) => { if (e.target === box) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (box.classList.contains("hidden")) return;
+    if (e.key === "Escape") close(); if (e.key === "ArrowLeft") move(-1); if (e.key === "ArrowRight") move(1);
+  });
+</script>

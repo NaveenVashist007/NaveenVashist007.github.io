@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import EnquiryForm from "../components/EnquiryForm.astro";
+import { site, whatsappUrl } from "../config/site";
+import { projects, mapsEmbed, mapsLink } from "../lib/projects";
+const first = projects[0];
+const info = [
+  { label: "Phone", value: site.phone, href: `tel:+${site.phoneRaw}` },
+  { label: "WhatsApp", value: "Chat with us", href: whatsappUrl() },
+  { label: "Email", value: site.email, href: `mailto:${site.email}` },
+  { label: "Office", value: site.address },
+  { label: "Working hours", value: site.hours },
+];
+---
+<BaseLayout title="Contact Us" description="Contact NextGen Infra for plot details, site visits and enquiries.">
+  <PageHero eyebrow="Contact Us" title="Let's talk about your next plot"
+            text="Send an enquiry, call or WhatsApp us. We will share details, documents and arrange a site visit." />
+  <section class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+      <div class="space-y-6" data-reveal>
+        {info.map((i) => (
+          <div class="border-b border-navy-900/10 pb-5">
+            <p class="eyebrow">{i.label}</p>
+            {i.href
+              ? <a href={i.href} target={i.href.startsWith("http") ? "_blank" : undefined} rel="noopener" class="mt-1 block text-lg text-navy-900 hover:text-gold-500">{i.value}</a>
+              : <p class="mt-1 text-lg text-navy-900">{i.value}</p>}
+          </div>
+        ))}
+      </div>
+      <div data-reveal><EnquiryForm heading="Send an enquiry" /></div>
+    </div>
+  </section>
+  {first && (
+    <section class="pb-24">
+      <div class="container-x">
+        <p class="eyebrow">Visit our project</p>
+        <h2 class="mt-3 text-3xl text-navy-900">{first.title}</h2>
+        <div class="mt-6 overflow-hidden rounded-2xl ring-1 ring-black/10">
+          <iframe src={mapsEmbed(first)} title="Project location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="h-[380px] w-full border-0"></iframe>
+        </div>
+        <a href={mapsLink(first)} target="_blank" rel="noopener" class="btn btn-gold mt-6">Open in Google Maps</a>
+      </div>
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,17 @@
+{
+  "slug": "green-valley-plots", "title": "Green Valley Plots", "status": "completed", "type": "Plots", "city": "Sirsa, Haryana",
+  "address": "Hisar Road, Sirsa, Haryana",
+  "googleMapsLink": "", "googleMapsEmbedUrl": "",
+  "shortDescription": "Fully developed residential plots with wide roads, parks and ready utilities.",
+  "description": [
+    "Green Valley is a completed plotted colony with wide internal roads, street lighting, parks and underground utilities.",
+    "All plots were delivered with clear titles and approved layout documentation."
+  ],
+  "priceRange": "Sold out", "possessionDate": "Delivered 2023", "reraNumber": "",
+  "amenities": ["Wide Roads", "Parks", "Street Lighting", "Water Supply", "Sewerage"],
+  "cover": "/images/project-2.svg",
+  "gallery": ["/images/project-2.svg", "/images/story.svg", "/images/hero.svg", "/images/project-1.svg"],
+  "videoUrl": "", "floorPlans": [],
+  "documents": [{ "label": "Approved Layout Plan", "file": "/documents/sample-brochure.pdf" }],
+  "featured": true, "order": 2
+}

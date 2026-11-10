@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { projects } from "../../lib/projects";
+const cities = [...new Set(projects.map((p) => p.city))].sort();
+const types = [...new Set(projects.map((p) => p.type))].sort();
+const sel = "rounded-full border border-navy-900/20 bg-white px-5 py-2 text-sm outline-none focus:border-gold-500";
+---
+<BaseLayout title="Projects" description="Ongoing, completed and upcoming real estate projects by NextGen Infra in Haryana.">
+  <PageHero eyebrow="Our Projects" title="Explore our developments"
+            text="Browse ongoing, completed and upcoming projects with locations, galleries and documents." />
+  <section class="section">
+    <div class="container-x">
+      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+        <div id="status-filter" class="flex flex-wrap gap-3">
+          {["all", "ongoing", "completed", "upcoming"].map((t, i) => (
+            <button data-status-btn={t} data-active={i === 0 ? "" : undefined}
+              class="rounded-full border border-navy-900/20 px-6 py-2 text-sm font-semibold capitalize transition data-[active]:border-gold-500 data-[active]:bg-gold-500 data-[active]:text-navy-950">{t}</button>
+          ))}
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <select id="f-city" class={sel} aria-label="Filter by location">
+            <option value="all">All locations</option>
+            {cities.map((c) => <option value={c}>{c}</option>)}
+          </select>
+          <select id="f-type" class={sel} aria-label="Filter by type">
+            <option value="all">All types</option>
+            {types.map((t) => <option value={t}>{t}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div id="grid" class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p id="empty" class="hidden py-16 text-center text-ink/60">No projects match these filters.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>("[data-status-btn]");
+  const city = document.getElementById("f-city") as HTMLSelectElement;
+  const type = document.getElementById("f-type") as HTMLSelectElement;
+  const cards = document.querySelectorAll<HTMLElement>("#grid [data-status]");
+  const empty = document.getElementById("empty")!;
+  let status = "all";
+  const apply = () => {
+    let shown = 0;
+    cards.forEach((c) => {
+      const ok = (status === "all" || c.dataset.status === status) &&
+                 (city.value === "all" || c.dataset.city === city.value) &&
+                 (type.value === "all" || c.dataset.type === type.value);
+      c.classList.toggle("hidden", !ok);
+      if (ok) shown++;
+    });
+    empty.classList.toggle("hidden", shown > 0);
+  };
+  const setStatus = (s: string) => { status = s; btns.forEach((b) => b.toggleAttribute("data-active", b.dataset.statusBtn === s)); apply(); };
+  btns.forEach((b) => b.addEventListener("click", () => setStatus(b.dataset.statusBtn!)));
+  city.addEventListener("change", apply);
+  type.addEventListener("change", apply);
+  // Supports links like /projects?status=ongoing
+  const q = new URLSearchParams(location.search).get("status");
+  if (q && ["ongoing", "completed", "upcoming"].includes(q)) setStatus(q);
+</script>

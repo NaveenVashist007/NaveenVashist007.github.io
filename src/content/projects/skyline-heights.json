@@ -1,0 +1,18 @@
+{
+  "slug": "skyline-heights", "title": "Skyline Heights", "status": "ongoing", "type": "Flats", "city": "Hisar, Haryana",
+  "address": "Sector 14, Hisar, Haryana",
+  "googleMapsLink": "", "googleMapsEmbedUrl": "",
+  "shortDescription": "Premium 2 & 3 BHK apartments with clubhouse, landscaped gardens and 24x7 security.",
+  "description": [
+    "Skyline Heights offers thoughtfully planned 2 and 3 BHK apartments in a well-connected part of the city, close to schools, hospitals and markets.",
+    "Every home is designed for light, ventilation and privacy, with a landscaped central garden and a modern clubhouse for residents."
+  ],
+  "priceRange": "₹45 L onwards", "possessionDate": "December 2027", "reraNumber": "HRERA registration no. (add here)",
+  "amenities": ["Clubhouse", "Landscaped Gardens", "24x7 Security", "Power Backup", "Covered Parking", "Children's Play Area"],
+  "cover": "/images/project-1.svg",
+  "gallery": ["/images/project-1.svg", "/images/story.svg", "/images/hero.svg", "/images/project-2.svg", "/images/project-3.svg", "/images/story.svg"],
+  "videoUrl": "",
+  "floorPlans": [{ "label": "2 BHK Floor Plan", "image": "/images/story.svg" }, { "label": "3 BHK Floor Plan", "image": "/images/hero.svg" }],
+  "documents": [{ "label": "Project Brochure", "file": "/documents/sample-brochure.pdf" }, { "label": "RERA Certificate", "file": "/documents/sample-brochure.pdf" }],
+  "featured": true, "order": 1
+}

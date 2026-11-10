@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import { site } from "../config/site";
+---
+<BaseLayout title="Disclaimer" description="Important information about the content on this website.">
+  <PageHero eyebrow="Legal" title="Disclaimer" />
+  <section class="section">
+    <div class="container-x max-w-3xl space-y-5 leading-relaxed text-ink/80">
+      <p>The information on this website is provided for general guidance and does not constitute an offer, invitation or contract of sale.</p>
+      <ul class="list-disc space-y-3 pl-6">
+        <li>Plot sizes, areas, layouts, amenities and specifications are as per the current site plan and may change due to approvals or technical reasons.</li>
+        <li>Images, site plans and renderings are for illustration only and may differ from the actual project.</li>
+        <li>Prices, availability and offers are subject to change without notice. Please confirm all details with {site.name} before booking.</li>
+        <li>Buyers are advised to verify approvals, registrations and legal documents independently before making any decision.</li>
+      </ul>
+      <p class="text-sm text-ink/50">This is a general template; the business should have it reviewed by a legal professional.</p>
+    </div>
+  </section>
+</BaseLayout>

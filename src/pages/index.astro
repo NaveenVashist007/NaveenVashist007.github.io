@@ -1,0 +1,160 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { site, whatsappUrl } from "../config/site";
+import { home } from "../config/home";
+import { featuredProjects } from "../lib/projects";
+---
+<BaseLayout>
+  <!-- 1. HERO -->
+  <section class="relative flex min-h-screen items-center overflow-hidden bg-navy-950">
+    {home.heroVideo ? (
+      <video class="absolute inset-0 h-full w-full object-cover" src={home.heroVideo} poster="/images/hero.webp"
+             autoplay muted loop playsinline preload="metadata"></video>
+    ) : (
+      <img src="/images/hero.webp" srcset="/images/hero-900.webp 900w, /images/hero.webp 1920w" sizes="100vw" alt="" class="kenburns absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
+    )}
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/30"></div>
+    <div class="container-x relative z-10 pt-24">
+      <p class="eyebrow" data-reveal>Premium Real Estate · Haryana</p>
+      <h1 class="mt-6 max-w-4xl text-5xl leading-[1.05] text-white sm:text-6xl" data-reveal data-delay="0.15">{site.tagline}</h1>
+      <p class="mt-6 max-w-xl text-lg text-white/75" data-reveal data-delay="0.3">{site.description}</p>
+      <div class="mt-10 flex flex-wrap gap-4" data-reveal data-delay="0.45">
+        <a href="/projects" class="btn btn-gold">Explore Projects</a>
+        <a href={whatsappUrl()} target="_blank" rel="noopener" class="btn btn-outline">Chat on WhatsApp</a>
+      </div>
+    </div>
+    <a href="#story" class="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-xs tracking-[0.3em] text-white/60">SCROLL</a>
+  </section>
+
+  <!-- 2. BRAND STORY -->
+  <section id="story" class="section">
+    <div class="container-x grid items-center gap-14 lg:grid-cols-2">
+      <div class="overflow-hidden rounded-2xl">
+        <img src="/images/nextgen-farms-cover.webp" alt="NextGen Farms site plan and logo" loading="lazy" width="800" height="600"
+             data-clip class="aspect-[4/3] w-full object-cover" />
+      </div>
+      <div>
+        <p class="eyebrow" data-reveal>{home.story.eyebrow}</p>
+        <h2 class="mt-4 text-4xl leading-tight text-navy-900 sm:text-5xl" data-reveal>{home.story.title}</h2>
+        {home.story.text.map((t) => <p class="mt-5 leading-relaxed text-ink/75" data-reveal>{t}</p>)}
+        <a href="/about" class="btn btn-gold mt-8" data-reveal>About Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. STATS -->
+  <section class="bg-navy-950 py-16">
+    <div class="container-x grid grid-cols-2 gap-10 text-center md:grid-cols-4">
+      {home.stats.map((s) => (
+        <div data-reveal>
+          <p class="font-serif text-5xl text-gold-500"><span data-count={s.value} data-suffix={s.suffix} data-decimals={s.decimals ?? 0}>{s.value.toLocaleString("en-IN")}{s.suffix}</span></p>
+          <p class="mt-2 text-sm uppercase tracking-widest text-white/60">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 4. FEATURED PROJECTS (tabs) -->
+  <section class="section">
+    <div class="container-x">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Our Projects</p>
+        <h2 class="mt-4 text-4xl text-navy-900 sm:text-5xl">Featured Developments</h2>
+      </div>
+      <div class="mt-10 flex flex-wrap justify-center gap-3" id="project-tabs" data-reveal>
+        {["all", "ongoing", "completed", "upcoming"].map((t, i) => (
+          <button data-tab={t} data-active={i === 0 ? "" : undefined}
+            class="rounded-full border border-navy-900/20 px-6 py-2 text-sm font-semibold capitalize transition data-[active]:border-gold-500 data-[active]:bg-gold-500 data-[active]:text-navy-950">{t}</button>
+        ))}
+      </div>
+      <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3" id="project-grid">
+        {featuredProjects.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p id="home-empty" class="mt-10 hidden text-center text-ink/60">No projects in this category yet.</p>
+      <div class="mt-12 text-center"><a href="/projects" class="btn btn-gold">View All Projects</a></div>
+    </div>
+  </section>
+
+  <!-- 5. WHY CHOOSE US -->
+  <section class="section bg-white">
+    <div class="container-x">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Why NextGen Infra</p>
+        <h2 class="mt-4 text-4xl text-navy-900 sm:text-5xl">A name you can rely on</h2>
+      </div>
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {home.why.map((w, i) => (
+          <div class="rounded-2xl border border-navy-900/10 p-8 transition hover:border-gold-500 hover:shadow-lg" data-reveal data-delay={i * 0.1}>
+            <p class="font-serif text-4xl text-gold-500">0{i + 1}</p>
+            <h3 class="mt-4 text-xl text-navy-900">{w.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink/70">{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. AMENITIES -->
+  <section class="section bg-navy-900">
+    <div class="container-x">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Amenities</p>
+        <h2 class="mt-4 text-4xl text-white sm:text-5xl">Designed for better living</h2>
+      </div>
+      <div class="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+        {home.amenities.map((a, i) => (
+          <div class="rounded-xl border border-white/10 px-5 py-6 text-center text-sm text-white/85 transition hover:border-gold-500 hover:text-gold-400" data-reveal data-delay={(i % 4) * 0.08}>{a}</div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TESTIMONIALS (hidden until real reviews are added in home.ts) -->
+  {home.testimonials.length > 0 && (
+  <section class="section">
+    <div class="container-x">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Testimonials</p>
+        <h2 class="mt-4 text-4xl text-navy-900 sm:text-5xl">What our customers say</h2>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {home.testimonials.map((t, i) => (
+          <figure class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-black/5" data-reveal data-delay={i * 0.1}>
+            <p class="font-serif text-5xl leading-none text-gold-500">“</p>
+            <blockquote class="mt-2 leading-relaxed text-ink/80">{t.text}</blockquote>
+            <figcaption class="mt-6 text-sm"><span class="font-semibold text-navy-900">{t.name}</span> · {t.role}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <!-- 8. CTA BANNER -->
+  <section class="relative overflow-hidden bg-navy-950 py-24 text-center">
+    <div class="absolute inset-0 opacity-30"><img src="/images/hero.webp" alt="" loading="lazy" data-parallax="15" class="h-[130%] w-full object-cover" /></div>
+    <div class="container-x relative" data-reveal>
+      <h2 class="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Ready to find your place with NextGen Infra?</h2>
+      <p class="mx-auto mt-5 max-w-xl text-white/70">Talk to our team, schedule a site visit and get all project documents.</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4">
+        <a href="/contact" class="btn btn-gold">Send Enquiry</a>
+        <a href={`tel:+${site.phoneRaw}`} class="btn btn-outline">Call {site.phone}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Project tabs: filter cards by data-status
+  const tabs = document.querySelectorAll<HTMLButtonElement>("#project-tabs [data-tab]");
+  const cards = document.querySelectorAll<HTMLElement>("#project-grid [data-status]");
+  tabs.forEach((tab) =>
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.toggleAttribute("data-active", t === tab));
+      let shown = 0;
+      cards.forEach((c) => { const ok = tab.dataset.tab === "all" || c.dataset.status === tab.dataset.tab; c.classList.toggle("hidden", !ok); if (ok) shown++; });
+      document.getElementById("home-empty")!.classList.toggle("hidden", shown > 0);
+    })
+  );
+</script>

@@ -1,0 +1,35 @@
+{
+  "slug": "nextgen-farms",
+  "title": "NextGen Farms",
+  "status": "ongoing",
+  "type": "Farmhouse Plots",
+  "city": "Bhiwani, Haryana",
+  "address": "NextGen Farms, Opposite RD Resorts, Bhiwani-Jind Road, near Tigrana Mod, Bhiwani, Haryana",
+  "googleMapsLink": "",
+  "googleMapsEmbedUrl": "",
+  "shortDescription": "37 farmhouse plots in a gated countryside community, 0.4 km from Tigrana Mod on the Bhiwani–Jind Road.",
+  "description": [
+    "Own a piece of the countryside in NextGen Farms: an exclusive collection of 37 farmhouse plots in multiple sizes, planned to suit both your lifestyle and your investment goals across 5.8 acres.",
+    "This thoughtfully planned gated community offers a 35 ft wide access road, reliable water and electricity connections, a modern sewage treatment plant, round-the-clock security with guard rooms and CCTV surveillance, and a dedicated cycling track for health and leisure."
+  ],
+  "priceRange": "Price on request",
+  "possessionDate": "",
+  "reraNumber": "",
+  "totalArea": "5.8 Acres",
+  "totalUnits": "37 Plots",
+  "amenities": ["35 ft Wide Road", "Water & Electricity Connections", "Sewage Treatment Plant", "24x7 Security with Guard Rooms", "CCTV Surveillance", "Cycling Track", "Gated Community", "Tree-lined Avenue"],
+  "plotSizes": [
+    { "plots": "Plot 1", "size": "52 ft × 146 ft", "area": "685 sq yd" },
+    { "plots": "Plot 2", "size": "53 ft × 120.7 ft", "area": "554 sq yd" },
+    { "plots": "Plot 3", "size": "105.7 ft × 75.5 ft", "area": "518 sq yd" },
+    { "plots": "Plots 4 to 35", "size": "55 ft × 86.75 ft", "area": "530 sq yd" },
+    { "plots": "Plots 36 & 37", "size": "104 ft × 55 ft", "area": "651 sq yd" }
+  ],
+  "cover": "/images/nextgen-farms-cover.webp",
+  "gallery": ["/images/nextgen-farms-cover.webp", "/images/nextgen-farms-site-plan.webp"],
+  "videoUrl": "",
+  "floorPlans": [{ "label": "Site plan with plot areas", "image": "/images/nextgen-farms-site-plan.webp" }],
+  "documents": [{ "label": "Site Plan with Plot Areas", "file": "/documents/NextGen-Farms-Site-Plan.pdf" }],
+  "featured": true,
+  "order": 1
+}

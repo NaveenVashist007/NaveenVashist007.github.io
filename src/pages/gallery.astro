@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Lightbox from "../components/Lightbox.astro";
+import { projects } from "../lib/projects";
+// Every image listed in a project's "gallery" appears here automatically.
+const items = projects.flatMap((p) => (p.gallery ?? []).map((src, i) => ({ src, cat: p.title, caption: `${p.title} - image ${i + 1}` })));
+const cats = [...new Set(items.map((i) => i.cat))];
+---
+<BaseLayout title="Gallery" description="Photos, plans and visuals of NextGen Infra projects.">
+  <PageHero eyebrow="Gallery" title="Project gallery" text="Photos, site plans and visuals from our projects." />
+  <section class="section">
+    <div class="container-x">
+      {items.length === 0 ? <p class="text-center text-ink/60">Gallery coming soon.</p> : (
+        <>
+          <div id="gal-filter" class="mb-10 flex flex-wrap justify-center gap-3">
+            {["All", ...cats].map((c, i) => (
+              <button data-cat-btn={c} data-active={i === 0 ? "" : undefined}
+                class="rounded-full border border-navy-900/20 px-6 py-2 text-sm font-semibold transition data-[active]:border-gold-500 data-[active]:bg-gold-500 data-[active]:text-navy-950">{c}</button>
+            ))}
+          </div>
+          <div class="columns-2 gap-4 md:columns-3">
+            {items.map((it) => (
+              <button type="button" data-lightbox="gallery" data-src={it.src} data-caption={it.caption} data-cat={it.cat}
+                      class="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-xl">
+                <img src={it.src} alt={it.caption} loading="lazy" class="w-full object-cover transition duration-700 group-hover:scale-105" />
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+  <Lightbox />
+</BaseLayout>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>("[data-cat-btn]");
+  const tiles = document.querySelectorAll<HTMLElement>("[data-cat]");
+  btns.forEach((b) => b.addEventListener("click", () => {
+    btns.forEach((x) => x.toggleAttribute("data-active", x === b));
+    tiles.forEach((t) => t.classList.toggle("hidden", b.dataset.catBtn !== "All" && t.dataset.cat !== b.dataset.catBtn));
+  }));
+</script>
