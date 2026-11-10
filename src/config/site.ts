@@ -4,7 +4,7 @@ export const site = {
   tagline: "Infrastructure You Can Count On, A Lifestyle You'll Love",
   description:
     "NextGen Infra is a real estate developer in Haryana. Explore NextGen Farms: 37 farmhouse plots on the Bhiwani-Jind Road with site plan, location and documents.",
-  url: "https://www.example.com",
+  url: "https://NaveenVashist007.github.io",
   phone: "+91 90343 53393",
   phoneRaw: "919034353393", // digits only, with country code (used for tel: and WhatsApp)
   email: "info@example.com",

@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 // CHANGE `site` to your real domain once you buy it.
 // With a custom domain on GitHub Pages, do NOT set `base`.
 export default defineConfig({
-  site: "https://www.example.com",
+  site: "https://NaveenVashist007.github.io",
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
 });
